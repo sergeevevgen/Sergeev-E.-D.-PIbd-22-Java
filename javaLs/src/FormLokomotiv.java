@@ -1,33 +1,30 @@
 
 import java.awt.EventQueue;
 import java.awt.*;
-import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Insets;
 import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.Random;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 
-public class FormMonoRels extends JFrame {
+public class FormLokomotiv extends JFrame {
 
     //Панель
     private final JPanel contentPane;
+
     //Объект от класса MonoRels
-    private MonoRels monor;
+    private ITransport lokomotiv;
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                FormMonoRels frame = new FormMonoRels();
+                FormLokomotiv frame = new FormLokomotiv();
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -39,15 +36,13 @@ public class FormMonoRels extends JFrame {
      * Create the frame.
      */
     //Конструктор
-    public FormMonoRels() {
+    public FormLokomotiv() {
         //Установка названия формы
-        super("Монорельс");
+        super("Монорельс/Локомотив");
         //Установка закрытия при нажатии на красный крестик справа сверху
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //размеры формы и ее расположение на экране
         setBounds(100, 100, 900, 500);
-        //запрет на изменение размеров
-        setResizable(false);
         //Инициализация панели
         contentPane = new JPanel();
         //Установка границ панели
@@ -58,11 +53,17 @@ public class FormMonoRels extends JFrame {
         contentPane.setLayout(null);
 
 
+        //Создание кнопки "Создать Локомотив" и инициализация её свойств
+        JButton btnCreateLokomotiv = new JButton("Создать локомотив");
+        btnCreateLokomotiv.setBounds(719, 11, 150, 23);
+        btnCreateLokomotiv.setMargin(new Insets(10, 10, 10, 10));
+        contentPane.add(btnCreateLokomotiv);
+
         //Создание кнопки "Создать Монорельс" и инициализация её свойств
-        JButton btnCreate = new JButton("Создать Монорельс");
-        btnCreate.setBounds(719, 11, 150, 23);
-        btnCreate.setMargin(new Insets(10, 10, 10, 10));
-        contentPane.add(btnCreate);
+        JButton btnCreateMonoRels = new JButton("Создать монорельс");
+        btnCreateMonoRels.setBounds(719, 54, 150, 23);
+        btnCreateMonoRels.setMargin(new Insets(10, 10, 10, 10));
+        this.contentPane.add(btnCreateMonoRels);
 
         //Создание кнопки "Вверх" и инициализация её свойств
         JButton btnUp = new JButton("");
@@ -88,12 +89,19 @@ public class FormMonoRels extends JFrame {
         btnRight.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1r.png"));
         contentPane.add(btnRight);
 
-        //Обработка нажатия на кнопку "Создать Монорельс"
-        btnCreate.addActionListener(e -> {
+        //Обработка нажатия на кнопку "Создать Локомотив"
+        btnCreateLokomotiv.addActionListener(e -> {
             Random rnd = new Random();
-            monor = new MonoRels();
-            monor.Init(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.PINK, Color.RED, true, true);
-            monor.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            lokomotiv = new Lokomotiv(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.red);
+            lokomotiv.SetPosition(rnd.nextInt(100) + 11, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            repaint();
+        });
+
+        //Обработка нажатия на кнопку "Создать Монорельс"
+        btnCreateMonoRels.addActionListener((e) -> {
+            Random rnd = new Random();
+            lokomotiv = new MonoRels(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.PINK, Color.red, true, true, rnd.nextInt(3) + 1);
+            lokomotiv.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
             repaint();
         });
 
@@ -101,7 +109,7 @@ public class FormMonoRels extends JFrame {
         btnUp.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                monor.MoveTransport(Direction.UP);
+                lokomotiv.MoveTransport(Direction.UP);
                 repaint();
             }
         });
@@ -110,7 +118,7 @@ public class FormMonoRels extends JFrame {
         btnLeft.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                monor.MoveTransport(Direction.LEFT);
+                lokomotiv.MoveTransport(Direction.LEFT);
                 repaint();
             }
         });
@@ -119,7 +127,7 @@ public class FormMonoRels extends JFrame {
         btnDown.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                monor.MoveTransport(Direction.DOWN);
+                lokomotiv.MoveTransport(Direction.DOWN);
                 repaint();
             }
         });
@@ -128,7 +136,7 @@ public class FormMonoRels extends JFrame {
         btnRight.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                monor.MoveTransport(Direction.RIGHT);
+                lokomotiv.MoveTransport(Direction.RIGHT);
                 repaint();
             }
         });
@@ -139,8 +147,8 @@ public class FormMonoRels extends JFrame {
     public void paint(Graphics g)
     {
         super.paint(g);
-        if(monor != null)
-            monor.DrawTransport(g);
+        if(lokomotiv != null)
+            lokomotiv.DrawTransport(g);
     }
 
     @Override
