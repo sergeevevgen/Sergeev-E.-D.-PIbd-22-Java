@@ -34,14 +34,14 @@ public class DopClass{
 
     //Метод (свойство) для получения поля ДопПеречисления
     private DopEnum getD() {
-        return this.dopenum;
+        return dopenum;
     }
 
 
     //Главный метод отрисовки двери/дверей
     public void DrawPart(Graphics2D g2d, int x, int y)
     {
-        //В зависимости от значения рисуется одна, две, три двери
+        //Всегда рисуется одна дверь и в зависимости от значения рисуется две или три двери
         g2d.setColor(GetDopc());
         g2d.fillRect(x + 33, y + 4, 7, 27);
 
@@ -51,20 +51,18 @@ public class DopClass{
         if (dopenum == DopEnum.Two)
         {
             g2d.setColor(GetDopc());
-            g2d.fillRect(x + 51, y + 4, 7, 27);
+            g2d.fillRect(x + 50, y + 3, 8, 28);
+            if (dopenum == DopEnum.Three)
+            {
+                g2d.fillRect(x + 68, y + 3, 8, 28);
+            }
 
             g2d.setColor(Color.BLACK);
             g2d.drawRect(x + 50, y + 3, 8, 28);
-        }
-        if (dopenum == DopEnum.Three)
-        {
-            g2d.setColor(GetDopc());
-            g2d.fillRect(x + 51, y + 4, 7, 27);
-            g2d.fillRect(x + 69, y + 4, 7, 27);
-
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(x + 50, y + 3, 8, 28);
-            g2d.drawRect(x + 68, y + 3, 8, 28);
+            if (dopenum == DopEnum.Three)
+            {
+                g2d.drawRect(x + 68, y + 3, 8, 28);
+            }
         }
     }
 }
