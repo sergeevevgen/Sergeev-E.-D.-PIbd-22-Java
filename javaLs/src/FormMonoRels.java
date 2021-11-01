@@ -17,9 +17,9 @@ import javax.swing.border.LineBorder;
 
 public class FormMonoRels extends JFrame {
 
-    //Панель
+    //РџР°РЅРµР»СЊ
     private final JPanel contentPane;
-    //Объект от класса MonoRels
+    //РћР±СЉРµРєС‚ РѕС‚ РєР»Р°СЃСЃР° РњРѕРЅРѕСЂРµР»СЊСЃ
     private MonoRels monor;
     /**
      * Launch the application.
@@ -38,57 +38,57 @@ public class FormMonoRels extends JFrame {
     /**
      * Create the frame.
      */
-    //Конструктор
+    //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
     public FormMonoRels() {
-        //Установка названия формы
-        super("Монорельс");
-        //Установка закрытия при нажатии на красный крестик справа сверху
+        //Р’С‹Р·РѕРІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР°
+        super("РњРѕРЅРѕСЂРµР»СЊСЃ");
+        //Р—Р°РєСЂС‹С‚РёРµ РЅР° "РєСЂРµСЃС‚РёРє"
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //размеры формы и ее расположение на экране
+        //РЈСЃС‚Р°РЅРѕРІРєР° РїРѕР»РѕР¶РµРЅРёСЏ РЅР° СЌРєСЂР°РЅРµ Рё СЂР°Р·РјРµСЂР° С„РѕСЂРјС‹
         setBounds(100, 100, 900, 500);
-        //запрет на изменение размеров
+        //РќРµРёР·РјРµРЅСЏРµРјС‹Р№ СЂР°Р·РјРµСЂ
         setResizable(false);
-        //Инициализация панели
+        //РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїР°РЅРµР»Рё
         contentPane = new JPanel();
-        //Установка границ панели
+        //РЈСЃС‚Р°РЅРѕРІРєР° РµС‘ РіСЂР°РЅРёС†
         contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
-        //Контент формы = контент с панели
+        //Р’СЃРµ СЃРѕРґРµСЂР¶РёРјРѕРµ Р±СѓРґРµС‚ РѕС‚СЂРёСЃРѕРІС‹РІР°С‚СЊСЃСЏ РІ РїР°РЅРµР»Рµ
         setContentPane(contentPane);
-        //Установка метода расположения в панели
+        //РЈСЃС‚Р°РЅРѕРІРєР° Layouta
         contentPane.setLayout(null);
 
 
-        //Создание кнопки "Создать Монорельс" и инициализация её свойств
-        JButton btnCreate = new JButton("Создать Монорельс");
+        //РљРЅРѕРїРєР° СЃРѕР·РґР°РЅРёРµ РјРѕРЅРѕСЂРµР»СЊСЃР°
+        JButton btnCreate = new JButton("РЎРѕР·РґР°С‚СЊ РњРѕРЅРѕСЂРµР»СЊСЃ");
         btnCreate.setBounds(719, 11, 150, 23);
         btnCreate.setMargin(new Insets(10, 10, 10, 10));
         contentPane.add(btnCreate);
 
-        //Создание кнопки "Вверх" и инициализация её свойств
+        //РЎС‚СЂРµР»РѕС‡РєР° Р’РІРµСЂС…
         JButton btnUp = new JButton("");
         btnUp.setBounds(804, 379, 30, 30);
         btnUp.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1u.png"));
         contentPane.add(btnUp);
 
-        //Создание кнопки "Влево" и инициализация её свойств
+        //РЎС‚СЂРµР»РѕС‡РєР° Р’Р»РµРІРѕ
         JButton btnLeft = new JButton("");
         btnLeft.setBounds(764, 420, 30, 30);
         btnLeft.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1l.png"));
         contentPane.add(btnLeft);
 
-        //Создание кнопки "Вниз" и инициализация её свойств
+        //РЎС‚СЂРµР»РѕС‡РєР° Р’РЅРёР·
         JButton btnDown = new JButton("");
         btnDown.setBounds(804, 420, 30, 30);
         btnDown.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1d.png"));
         contentPane.add(btnDown);
 
-        //Создание кнопки "Вправо" и инициализация её свойств
+        //РЎС‚СЂРµР»РѕС‡РєР° Р’РїСЂР°РІРѕ
         JButton btnRight = new JButton("");
         btnRight.setBounds(844, 420, 30, 30);
         btnRight.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1r.png"));
         contentPane.add(btnRight);
 
-        //Обработка нажатия на кнопку "Создать Монорельс"
+        //РџСЂРёРІСЏР·РєР° РґРµР№СЃС‚РІРёСЏ РЅР° РєРЅРѕРїРєСѓ "РЎРѕР·РґР°С‚СЊ"
         btnCreate.addActionListener(e -> {
             Random rnd = new Random();
             monor = new MonoRels();
@@ -97,7 +97,7 @@ public class FormMonoRels extends JFrame {
             repaint();
         });
 
-        //Обработка нажатия на кнопку "Вверх"
+        //РџСЂРёРІСЏР·РєР° РґРµР№СЃС‚РІРёСЏ РЅР° СЃС‚СЂРµР»РѕС‡РєСѓ "Р’РІРµСЂС…"
         btnUp.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -106,7 +106,7 @@ public class FormMonoRels extends JFrame {
             }
         });
 
-        //Обработка нажатия на кнопку "Влево"
+        //РџСЂРёРІСЏР·РєР° РґРµР№СЃС‚РІРёСЏ РЅР° СЃС‚СЂРµР»РѕС‡РєСѓ "Р’Р»РµРІРѕ"
         btnLeft.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -115,7 +115,7 @@ public class FormMonoRels extends JFrame {
             }
         });
 
-        //Обработка нажатия на кнопку "Вниз"
+        //РџСЂРёРІСЏР·РєР° РґРµР№СЃС‚РІРёСЏ РЅР° СЃС‚СЂРµР»РѕС‡РєСѓ "Р’РЅРёР·"
         btnDown.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -124,7 +124,7 @@ public class FormMonoRels extends JFrame {
             }
         });
 
-        //Обработка нажатия на кнопку "Вправо"
+        //РџСЂРёРІСЏР·РєР° РґРµР№СЃС‚РІРёСЏ РЅР° СЃС‚СЂРµР»РѕС‡РєСѓ "Р’РїСЂР°РІРѕ"
         btnRight.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -134,7 +134,7 @@ public class FormMonoRels extends JFrame {
         });
     }
 
-    //Метод отрисовки
+    //РџРµСЂРµРѕРїСЂРµРґРµР»РµРЅРёРµ РјРµС‚РѕРґР° paint
     @Override
     public void paint(Graphics g)
     {
@@ -143,6 +143,7 @@ public class FormMonoRels extends JFrame {
             monor.DrawTransport(g);
     }
 
+    //РџРµСЂРµРѕРїСЂРµРґРµР»РµРЅРёРµ РјРµС‚РѕРґР° repaint
     @Override
     public void repaint()
     {
