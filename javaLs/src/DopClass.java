@@ -37,7 +37,6 @@ public class DopClass{
         return dopenum;
     }
 
-
     //Главный метод отрисовки двери/дверей
     public void DrawPart(Graphics2D g2d, int x, int y)
     {
