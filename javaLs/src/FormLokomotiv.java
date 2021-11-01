@@ -13,10 +13,10 @@ import javax.swing.border.LineBorder;
 
 public class FormLokomotiv extends JFrame {
 
-    //Панель
+    //РџР°РЅРµР»СЊ
     private final JPanel contentPane;
 
-    //Объект от класса MonoRels
+    //РћР±СЉРµРєС‚ РѕС‚ РРЅС‚РµСЂС„РµР№СЃР°
     private ITransport lokomotiv;
     /**
      * Launch the application.
@@ -35,61 +35,61 @@ public class FormLokomotiv extends JFrame {
     /**
      * Create the frame.
      */
-    //Конструктор
+    //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
     public FormLokomotiv() {
-        //Установка названия формы
-        super("Монорельс/Локомотив");
-        //Установка закрытия при нажатии на красный крестик справа сверху
+        //РЈСЃС‚Р°РЅРѕРІРєР° РЅР°Р·РІР°РЅРёСЏ С„РѕСЂРјС‹
+        super("РњРѕРЅРѕСЂРµР»СЊСЃ/Р›РѕРєРѕРјРѕС‚РёРІ");
+        //РЈСЃС‚Р°РЅРѕРІРєР° Р·Р°РєСЂС‹С‚РёСЏ РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєСЂР°СЃРЅС‹Р№ РєСЂРµСЃС‚РёРє СЃРїСЂР°РІР° СЃРІРµСЂС…Сѓ
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //размеры формы и ее расположение на экране
+        //Р Р°Р·РјРµСЂС‹ С„РѕСЂРјС‹ Рё РµРµ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ РЅР° СЌРєСЂР°РЅРµ
         setBounds(100, 100, 900, 500);
-        //Инициализация панели
+        //РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїР°РЅРµР»Рё
         contentPane = new JPanel();
-        //Установка границ панели
+        //РЈСЃС‚Р°РЅРѕРІРєР° РіСЂР°РЅРёС† РїР°РЅРµР»Рё
         contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
-        //Контент формы = контент с панели
+        //РљРѕРЅС‚РµРЅС‚ С„РѕСЂРјС‹ = РєРѕРЅС‚РµРЅС‚ СЃ РїР°РЅРµР»Рё
         setContentPane(contentPane);
-        //Установка метода расположения в панели
+        //РЈСЃС‚Р°РЅРѕРІРєР° РјРµС‚РѕРґР° СЂР°СЃРїРѕР»РѕР¶РµРЅРёСЏ РІ РїР°РЅРµР»Рё
         contentPane.setLayout(null);
 
 
-        //Создание кнопки "Создать Локомотив" и инициализация её свойств
-        JButton btnCreateLokomotiv = new JButton("Создать локомотив");
+        //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё "РЎРѕР·РґР°С‚СЊ Р›РѕРєРѕРјРѕС‚РёРІ" Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РµС‘ СЃРІРѕР№СЃС‚РІ
+        JButton btnCreateLokomotiv = new JButton("РЎРѕР·РґР°С‚СЊ Р»РѕРєРѕРјРѕС‚РёРІ");
         btnCreateLokomotiv.setBounds(719, 11, 150, 23);
         btnCreateLokomotiv.setMargin(new Insets(10, 10, 10, 10));
         contentPane.add(btnCreateLokomotiv);
 
-        //Создание кнопки "Создать Монорельс" и инициализация её свойств
-        JButton btnCreateMonoRels = new JButton("Создать монорельс");
+        //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё "РЎРѕР·РґР°С‚СЊ РњРѕРЅРѕСЂРµР»СЊСЃ" Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РµС‘ СЃРІРѕР№СЃС‚РІ
+        JButton btnCreateMonoRels = new JButton("РЎРѕР·РґР°С‚СЊ РјРѕРЅРѕСЂРµР»СЊСЃ");
         btnCreateMonoRels.setBounds(719, 54, 150, 23);
         btnCreateMonoRels.setMargin(new Insets(10, 10, 10, 10));
         this.contentPane.add(btnCreateMonoRels);
 
-        //Создание кнопки "Вверх" и инициализация её свойств
+        //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё "Р’РІРµСЂС…" Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РµС‘ СЃРІРѕР№СЃС‚РІ
         JButton btnUp = new JButton("");
         btnUp.setBounds(804, 379, 30, 30);
-        btnUp.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1u.png"));
+        btnUp.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Up.jpg"));
         contentPane.add(btnUp);
 
-        //Создание кнопки "Влево" и инициализация её свойств
+        //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё "Р’Р»РµРІРѕ" Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РµС‘ СЃРІРѕР№СЃС‚РІ
         JButton btnLeft = new JButton("");
         btnLeft.setBounds(764, 420, 30, 30);
-        btnLeft.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1l.png"));
+        btnLeft.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Left.jpg"));
         contentPane.add(btnLeft);
 
-        //Создание кнопки "Вниз" и инициализация её свойств
+        //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё "Р’РЅРёР·" Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РµС‘ СЃРІРѕР№СЃС‚РІ
         JButton btnDown = new JButton("");
         btnDown.setBounds(804, 420, 30, 30);
-        btnDown.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1d.png"));
+        btnDown.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Down.jpg"));
         contentPane.add(btnDown);
 
-        //Создание кнопки "Вправо" и инициализация её свойств
+        //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё "Р’РїСЂР°РІРѕ" Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РµС‘ СЃРІРѕР№СЃС‚РІ
         JButton btnRight = new JButton("");
         btnRight.setBounds(844, 420, 30, 30);
-        btnRight.setIcon(new ImageIcon("C:\\Users\\alexe\\Desktop\\1r.png"));
+        btnRight.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Right.jpg"));
         contentPane.add(btnRight);
 
-        //Обработка нажатия на кнопку "Создать Локомотив"
+        //РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРЅРѕРїРєСѓ "РЎРѕР·РґР°С‚СЊ Р›РѕРєРѕРјРѕС‚РёРІ"
         btnCreateLokomotiv.addActionListener(e -> {
             Random rnd = new Random();
             lokomotiv = new Lokomotiv(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.red);
@@ -97,7 +97,7 @@ public class FormLokomotiv extends JFrame {
             repaint();
         });
 
-        //Обработка нажатия на кнопку "Создать Монорельс"
+        //РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРЅРѕРїРєСѓ "РЎРѕР·РґР°С‚СЊ РњРѕРЅРѕСЂРµР»СЊСЃ"
         btnCreateMonoRels.addActionListener((e) -> {
             Random rnd = new Random();
             lokomotiv = new MonoRels(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.PINK, Color.red, true, true, rnd.nextInt(3) + 1);
@@ -105,44 +105,52 @@ public class FormLokomotiv extends JFrame {
             repaint();
         });
 
-        //Обработка нажатия на кнопку "Вверх"
+        //РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРЅРѕРїРєСѓ "Р’РІРµСЂС…"
         btnUp.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                lokomotiv.MoveTransport(Direction.UP);
-                repaint();
+                if(lokomotiv != null) {
+                    lokomotiv.MoveTransport(Direction.UP);
+                    repaint();
+                }
             }
         });
 
-        //Обработка нажатия на кнопку "Влево"
+        //РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРЅРѕРїРєСѓ "Р’Р»РµРІРѕ"
         btnLeft.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                lokomotiv.MoveTransport(Direction.LEFT);
-                repaint();
+                if(lokomotiv != null) {
+                    lokomotiv.MoveTransport(Direction.LEFT);
+                    repaint();
+                }
             }
         });
 
-        //Обработка нажатия на кнопку "Вниз"
+        //РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРЅРѕРїРєСѓ "Р’РЅРёР·"
         btnDown.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                lokomotiv.MoveTransport(Direction.DOWN);
-                repaint();
+                if(lokomotiv != null) {
+                    lokomotiv.MoveTransport(Direction.DOWN);
+                    repaint();
+                }
             }
         });
 
-        //Обработка нажатия на кнопку "Вправо"
+        //РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РЅР° РєРЅРѕРїРєСѓ "Р’РїСЂР°РІРѕ"
         btnRight.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                lokomotiv.MoveTransport(Direction.RIGHT);
-                repaint();
+                if(lokomotiv != null) {
+                    lokomotiv.MoveTransport(Direction.RIGHT);
+                    repaint();
+                }
             }
         });
     }
 
-    //Метод отрисовки
+    //РџРµСЂРµРѕРїСЂРµРґРµР»РµРЅРёРµ РјРµС‚РѕРґР° paint
     @Override
     public void paint(Graphics g)
     {
@@ -151,6 +159,7 @@ public class FormLokomotiv extends JFrame {
             lokomotiv.DrawTransport(g);
     }
 
+    //РџРµСЂРµРѕРїСЂРµРґРµР»РµРЅРёРµ РјРµС‚РѕРґР° repaint
     @Override
     public void repaint()
     {

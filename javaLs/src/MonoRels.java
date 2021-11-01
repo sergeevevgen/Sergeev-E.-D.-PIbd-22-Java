@@ -67,10 +67,15 @@ public class MonoRels extends Lokomotiv{
         SetLamp(lamp);
         SetAirCooler(airCooler);
         SetNumOfWins(numOfWins);
-        doors = new DopClass();
+        int a = r.nextInt(3) + 1;
+        if(a == 1)
+            doors = new DopClass1();
+        else if (a == 2)
+            doors = new DopClass2();
+        else
+            doors = new DopClass3();
         doors.setDopc(GetDopColor());
         doors.setD(r.nextInt(3) + 2);
-        doors.setRealization(r.nextInt(3) + 1);
     }
 
     // Метод отрисовки монорельса

@@ -10,7 +10,4 @@ public interface IInterDop {
 
     //Метод установки дополнительного цвета
     void setDopc(Color dopc);
-
-    //Метод установки типа реализации объекта
-    void setRealization(int realization);
 }
