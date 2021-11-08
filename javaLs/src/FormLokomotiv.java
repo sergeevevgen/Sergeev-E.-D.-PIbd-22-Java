@@ -68,25 +68,25 @@ public class FormLokomotiv extends JFrame {
         //Создание кнопки "Вверх" и инициализация её свойств
         JButton btnUp = new JButton("");
         btnUp.setBounds(804, 379, 30, 30);
-        btnUp.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Up.jpg"));
+        btnUp.setIcon(new ImageIcon("images\\1u.png"));
         contentPane.add(btnUp);
 
         //Создание кнопки "Влево" и инициализация её свойств
         JButton btnLeft = new JButton("");
         btnLeft.setBounds(764, 420, 30, 30);
-        btnLeft.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Left.jpg"));
+        btnLeft.setIcon(new ImageIcon("images\\1l.png"));
         contentPane.add(btnLeft);
 
         //Создание кнопки "Вниз" и инициализация её свойств
         JButton btnDown = new JButton("");
         btnDown.setBounds(804, 420, 30, 30);
-        btnDown.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Down.jpg"));
+        btnDown.setIcon(new ImageIcon("images\\1d.png"));
         contentPane.add(btnDown);
 
         //Создание кнопки "Вправо" и инициализация её свойств
         JButton btnRight = new JButton("");
         btnRight.setBounds(844, 420, 30, 30);
-        btnRight.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\Right.jpg"));
+        btnRight.setIcon(new ImageIcon("images\\1r.png"));
         contentPane.add(btnRight);
 
         //Обработка нажатия на кнопку "Создать Локомотив"
