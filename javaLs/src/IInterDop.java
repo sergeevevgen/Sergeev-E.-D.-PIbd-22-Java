@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+//ДопИнтерфейс
 public interface IInterDop {
     //Метод отрисовки
     void DrawPart(Graphics2D g2d, int x, int y);

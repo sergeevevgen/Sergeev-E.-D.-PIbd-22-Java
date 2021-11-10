@@ -48,6 +48,8 @@ public class DopClass1 implements IInterDop{
         g2d.setColor(getDopc());
         //Отрисовка дефолтной прямоугольной двери
         g2d.fillRect(x + 32, y + 3, 8, 28);
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(x + 32, y + 3, 8, 28);
 
         if (getD() == DopEnum.Two || getD() == DopEnum.Three) {
             g2d.setColor(getDopc());

@@ -1,5 +1,3 @@
-
-import java.awt.EventQueue;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,49 +7,40 @@ import javax.swing.ImageIcon;
 import java.util.Random;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.border.LineBorder;
 
+//Класс-наследник от JFrame
 public class FormLokomotiv extends JFrame {
 
     //Панель
     private final JPanel contentPane;
 
+    //Панель-карты
+    JPanel panelMap;
+
     //Объект от Интерфейса
     private ITransport lokomotiv;
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                FormLokomotiv frame = new FormLokomotiv();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
-    /**
-     * Create the frame.
-     */
     //Конструктор
     public FormLokomotiv() {
         //Установка названия формы
         super("Монорельс/Локомотив");
         //Установка закрытия при нажатии на красный крестик справа сверху
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
         //Размеры формы и ее расположение на экране
         setBounds(100, 100, 900, 500);
         //Инициализация панели
         contentPane = new JPanel();
-        //Установка границ панели
-        contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
         //Контент формы = контент с панели
         setContentPane(contentPane);
         //Установка метода расположения в панели
         contentPane.setLayout(null);
 
+        //Инициализация панели-карты
+        panelMap = new JPanel();
+        panelMap.setBackground(Color.GRAY);
+        panelMap.setBounds(0,0,700,461);
+        contentPane.add(panelMap);
 
         //Создание кнопки "Создать Локомотив" и инициализация её свойств
         JButton btnCreateLokomotiv = new JButton("Создать локомотив");
@@ -63,7 +52,7 @@ public class FormLokomotiv extends JFrame {
         JButton btnCreateMonoRels = new JButton("Создать монорельс");
         btnCreateMonoRels.setBounds(719, 54, 150, 23);
         btnCreateMonoRels.setMargin(new Insets(10, 10, 10, 10));
-        this.contentPane.add(btnCreateMonoRels);
+        contentPane.add(btnCreateMonoRels);
 
         //Создание кнопки "Вверх" и инициализация её свойств
         JButton btnUp = new JButton("");
@@ -150,13 +139,23 @@ public class FormLokomotiv extends JFrame {
         });
     }
 
+    //Метод передачи локомотива/монорельса на фрэйм
+    public void SetLokomotiv(ITransport lokomotiv)
+    {
+        Random rnd = new Random();
+        this.lokomotiv = lokomotiv;
+        this.lokomotiv.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, panelMap.getWidth(), panelMap.getHeight());
+        repaint();
+    }
+
     //Переопределение метода paint
     @Override
     public void paint(Graphics g)
     {
         super.paint(g);
-        if(lokomotiv != null)
+        if(lokomotiv != null) {
             lokomotiv.DrawTransport(g);
+        }
     }
 
     //Переопределение метода repaint

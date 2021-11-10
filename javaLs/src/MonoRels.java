@@ -1,8 +1,6 @@
-
-import java.util.Random;
 import java.awt.*;
-import javax.swing.*;
 
+//Дочерний класс от класса Lokomotiv
 public class MonoRels extends Lokomotiv{
 
     //Поле-объект от интерфейса InterDop

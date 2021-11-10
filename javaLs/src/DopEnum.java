@@ -1,3 +1,4 @@
+//ДопПеречисление
 public enum DopEnum {
     //Один объект
     One,
