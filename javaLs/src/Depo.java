@@ -59,11 +59,11 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
 
     //Больше или равно (как перегрузка оператора больше или равно)
     //Логика действия: сравнивает кол-во занятых мест с числом
-    public int MoreOrEquals(Depo<T, U> depo, double dob) {
+    public int MoreOrEquals(double dob) {
         int a = 0;
-        for (int i = 0; i < depo._places.length; ++i)
+        for (int i = 0; i < _places.length; ++i)
         {
-            if(depo._places[i] != null)
+            if(_places[i] != null)
             {
                 a++;
             }
@@ -73,11 +73,11 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
 
     //Меньше или равно (как перегрузка оператора меньше или равно)
     //Логика действия: сравнивает кол-во занятых мест с числом
-    public int LessOrEquals(Depo<T, U> depo, double dob) {
+    public int LessOrEquals(double dob) {
         int a = 0;
-        for (int i = 0; i < depo._places.length; ++i)
+        for (int i = 0; i < _places.length; ++i)
         {
-            if(depo._places[i] != null)
+            if(_places[i] != null)
             {
                 a++;
             }
