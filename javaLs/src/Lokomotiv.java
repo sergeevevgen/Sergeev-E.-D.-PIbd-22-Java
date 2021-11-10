@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Random;
 
+//Наследник от абстрактного класса Vehicle
 public class Lokomotiv extends Vehicle {
 
     Random r = new Random();
@@ -37,19 +38,19 @@ public class Lokomotiv extends Vehicle {
         switch(direction) {
             //Вправо
             case RIGHT:
-                if (_startPosX + step < _pictureWidth - 150 - lokomotivWidth) {
+                if (_startPosX + step < _pictureWidth - lokomotivWidth + 10) {
                     _startPosX += step;
                 }
                 break;
             //Влево
             case LEFT:
-                if (_startPosX - step > 11) {
+                if (_startPosX - step - 11 > 0) {
                     _startPosX -= step;
                 }
                 break;
             //Вверх
             case UP:
-                if (_startPosY - step > 36) {
+                if (_startPosY - step - 36 > 0) {
                     _startPosY -= step;
                 }
                 break;

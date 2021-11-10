@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Random;
 
+//Абстрактный класс-наследник от интерфейса
 public abstract class Vehicle implements ITransport {
 
     //Позиция по оси Х

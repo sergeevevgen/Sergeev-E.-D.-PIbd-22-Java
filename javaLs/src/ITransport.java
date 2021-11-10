@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 
+//Интерфейс для транспорта
 public interface ITransport {
     //Метод установки начальной позиции
     void SetPosition(int x, int y, int width, int height);
