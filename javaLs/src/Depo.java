@@ -1,11 +1,16 @@
 import java.awt.*;
 import java.lang.reflect.Array;
+import java.util.LinkedList;
+import java.util.List;
 
 //Параметризованный класс-хранилище для объектов
 public class Depo<T extends ITransport, U extends IInterDop>  {
 
-    //Массив хранимых объектов
-    private final T[] _places;
+    //Список хранимых объектов
+    private final List<T> _places;
+
+    //Максимальное кол-во мест в депо
+    private final int _maxCount;
 
     //Ширина окна отрисовки депо
     private final int pictureWidth;
@@ -24,7 +29,8 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
     {
         int width = picWidth / _placeSizeWidth;
         int height = picHeight / _placeSizeHeight;
-        _places = (T[]) Array.newInstance(ITransport.class,width * height);
+        _maxCount = width * height;
+        _places = new LinkedList<>();
         pictureWidth = picWidth;
         pictureHeight = picHeight;
     }
@@ -33,55 +39,36 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
     //Логика действия: в депо добавляется локомотив/монорельс
     public int Add(T lok)
     {
-        for (int i = 0; i < _places.length; ++i)
-        {
-            if(_places[i] == null)
-            {
-                _places[i] = lok;
-                return i;
-            }
-        }
-        return -1;
+        if(_places.size() == _maxCount)
+            return -1;
+        _places.add(lok);
+        return _places.size() - 1;
     }
 
     //Удалить объект (как перегрузка оператора вычитания в C#)
     //Логика действия: из депо забираем локомотив/монорельс
     public T Sub(int index)
     {
-        if(index > -1 && index < _places.length && _places[index] != null)
+        if(index > -1 && index < _places.size())
         {
-            T dop = _places[index];
-            _places[index] = null;
+            T dop = _places.get(index);
+            _places.remove(index);
             return dop;
         }
         return null;
     }
 
     //Больше или равно (как перегрузка оператора больше или равно)
-    //Логика действия: сравнивает кол-во занятых мест с числом
-    public int MoreOrEquals(Depo<T, U> depo, double dob) {
-        int a = 0;
-        for (int i = 0; i < depo._places.length; ++i)
-        {
-            if(depo._places[i] != null)
-            {
-                a++;
-            }
-        }
+    //Логика действия: сравнивает кол-во свободных мест с числом
+    public int MoreOrEquals(double dob) {
+        int a = _maxCount - _places.size();
         return Double.compare(a, dob);
     }
 
     //Меньше или равно (как перегрузка оператора меньше или равно)
-    //Логика действия: сравнивает кол-во занятых мест с числом
-    public int LessOrEquals(Depo<T, U> depo, double dob) {
-        int a = 0;
-        for (int i = 0; i < depo._places.length; ++i)
-        {
-            if(depo._places[i] != null)
-            {
-                a++;
-            }
-        }
+    //Логика действия: сравнивает кол-во свободных мест с числом
+    public int LessOrEquals(double dob) {
+        int a = _maxCount - _places.size();
         return Double.compare(a, dob);
     }
 
@@ -93,18 +80,16 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
         //Отрисовка линий разметки
         DrawMarking(g2d);
 
-        int x = 60, y = 65;
-        for(int i = 0; i < _places.length; ++i)
+        int x = 45, y = 35;
+        for(int i = 0; i < _places.size(); ++i)
         {
             if(i % (pictureWidth / _placeSizeWidth) == 0 && i != 0)
             {
                 y += 70;
-                x = 60;
+                x = 45;
             }
-            if(_places[i] != null) {
-                _places[i].SetPosition(x, y, 1, 1);
-                _places[i].DrawTransport(g2d);
-            }
+            _places.get(i).SetPosition(x, y, 1, 1);
+            _places.get(i).DrawTransport(g2d);
             x += 140;
         }
     }
@@ -117,12 +102,17 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
         for(int i = 0; i <  pictureWidth / _placeSizeWidth; ++i) {
             for (int j = 0; j < pictureHeight / _placeSizeHeight + 1; ++j)
             {
-                g2d.drawLine(50 + i * _placeSizeWidth, 50 + j * _placeSizeHeight,
-                         50 + i * _placeSizeWidth + _placeSizeWidth / 2,
-                        50 + j * _placeSizeHeight);
+                g2d.drawLine( 30 + i * _placeSizeWidth, 20 + j * _placeSizeHeight,
+                         30 + i * _placeSizeWidth + _placeSizeWidth / 2,
+                         20 + j * _placeSizeHeight);
             }
-            g2d.drawLine(50 + i * _placeSizeWidth, 50, 50 + i * _placeSizeWidth,
-                    50 + (pictureHeight / _placeSizeHeight) * _placeSizeHeight);
+            g2d.drawLine(30 + i * _placeSizeWidth, 20,30 + i * _placeSizeWidth, 20 + (pictureHeight / _placeSizeHeight) * _placeSizeHeight);
         }
+    }
+
+    public T get_places(int index) {
+        if(index > -1 && index < _places.size())
+            return _places.get(index);
+        return null;
     }
 }

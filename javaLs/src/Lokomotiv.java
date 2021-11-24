@@ -38,25 +38,25 @@ public class Lokomotiv extends Vehicle {
         switch(direction) {
             //Вправо
             case RIGHT:
-                if (_startPosX + step < _pictureWidth - lokomotivWidth + 10) {
+                if (_startPosX + step < _pictureWidth - lokomotivWidth) {
                     _startPosX += step;
                 }
                 break;
             //Влево
             case LEFT:
-                if (_startPosX - step - 11 > 0) {
+                if (_startPosX - step > 0) {
                     _startPosX -= step;
                 }
                 break;
             //Вверх
             case UP:
-                if (_startPosY - step - 36 > 0) {
+                if (_startPosY - step > 0) {
                     _startPosY -= step;
                 }
                 break;
             //Вниз
             case DOWN:
-                if (_startPosY + step < (_pictureHeight + 35 - lokomotivHeight)) {
+                if (_startPosY + step < (_pictureHeight - lokomotivHeight)) {
                     _startPosY += step;
                 }
         }

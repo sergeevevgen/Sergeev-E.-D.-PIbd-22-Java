@@ -10,12 +10,14 @@ import java.awt.event.MouseEvent;
 
 //Класс-наследник от JFrame
 public class FormLokomotiv extends JFrame {
+    //Объект от класса Random
+    Random rnd = new Random();
 
     //Панель
     private final JPanel contentPane;
 
-    //Панель-карты
-    JPanel panelMap;
+    //Панель-карты от Кастомного PictureBox
+    private final CutsomPictureBoxForMap panelMap;
 
     //Объект от Интерфейса
     private ITransport lokomotiv;
@@ -37,7 +39,7 @@ public class FormLokomotiv extends JFrame {
         contentPane.setLayout(null);
 
         //Инициализация панели-карты
-        panelMap = new JPanel();
+        panelMap = new CutsomPictureBoxForMap();
         panelMap.setBackground(Color.GRAY);
         panelMap.setBounds(0,0,700,461);
         contentPane.add(panelMap);
@@ -80,17 +82,17 @@ public class FormLokomotiv extends JFrame {
 
         //Обработка нажатия на кнопку "Создать Локомотив"
         btnCreateLokomotiv.addActionListener(e -> {
-            Random rnd = new Random();
             lokomotiv = new Lokomotiv(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.red);
             lokomotiv.SetPosition(rnd.nextInt(100) + 11, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            panelMap.setLoko(lokomotiv);
             repaint();
         });
 
         //Обработка нажатия на кнопку "Создать Монорельс"
         btnCreateMonoRels.addActionListener((e) -> {
-            Random rnd = new Random();
             lokomotiv = new MonoRels(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.PINK, Color.red, true, true, rnd.nextInt(3) + 1);
             lokomotiv.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            panelMap.setLoko(lokomotiv);
             repaint();
         });
 
@@ -142,20 +144,10 @@ public class FormLokomotiv extends JFrame {
     //Метод передачи локомотива/монорельса на фрэйм
     public void SetLokomotiv(ITransport lokomotiv)
     {
-        Random rnd = new Random();
         this.lokomotiv = lokomotiv;
         this.lokomotiv.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, panelMap.getWidth(), panelMap.getHeight());
+        panelMap.setLoko(lokomotiv);
         repaint();
-    }
-
-    //Переопределение метода paint
-    @Override
-    public void paint(Graphics g)
-    {
-        super.paint(g);
-        if(lokomotiv != null) {
-            lokomotiv.DrawTransport(g);
-        }
     }
 
     //Переопределение метода repaint
