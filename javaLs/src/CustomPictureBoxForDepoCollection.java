@@ -3,12 +3,14 @@ import java.awt.*;
 
 //Класс-наследник от JPanel для отрисовки выбранного Депо
 public class CustomPictureBoxForDepoCollection extends JPanel {
+
     //Объект-хранилище депо
     private DepoCollection depoCollection;
 
     //Выбранный элемент
     private String selectedItem = null;
 
+    //Метод установки коллекции-депо
     public void setDepoCollection(DepoCollection depoCollection)
     {
         this.depoCollection = depoCollection;

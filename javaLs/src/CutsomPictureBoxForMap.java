@@ -3,6 +3,7 @@ import java.awt.*;
 
 //Кастомный класс-наследник JPanel для собственной реализации PictureBox (как в с#)
 public class CutsomPictureBoxForMap extends JPanel {
+
     //Объект от интерфейса
     private ITransport loko;
 

@@ -110,6 +110,7 @@ public class FormDepo extends JFrame {
 
         //Очередь
         queueTransports = new LinkedList<>();
+
         //Кнопка "Забрать из очереди"
         JButton btnFromQ = new JButton("Взять из очереди");
         btnFromQ.setBounds(25,250,150,25);
@@ -117,6 +118,7 @@ public class FormDepo extends JFrame {
         JLabel lblQ = new JLabel("0");
         lblQ.setBounds(95,230,75,20);
         panelManage.add(lblQ);
+
         /*
         * Методы работы кнопок и тд
         * */

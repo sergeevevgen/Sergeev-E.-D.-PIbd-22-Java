@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 
 //Класс-наследник от JFrame
 public class FormLokomotiv extends JFrame {
+
     //Объект от класса Random
     Random rnd = new Random();
 

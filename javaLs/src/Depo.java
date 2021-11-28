@@ -110,6 +110,7 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
         }
     }
 
+    //Метод получение элемента депо по индексу
     public T get_places(int index) {
         if(index > -1 && index < _places.size())
             return _places.get(index);
