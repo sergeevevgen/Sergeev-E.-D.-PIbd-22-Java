@@ -1,15 +1,16 @@
 import java.awt.*;
+import java.util.Random;
 
 //Дочерний класс от класса Lokomotiv
 public class MonoRels extends Lokomotiv{
 
     //Поле-объект от интерфейса InterDop
-    private final IInterDop doors;
+    private IInterDop doors;
 
     //Дополнительный цвет монорельса
     private Color dopColor;
     //Метод для установки дополнительного цвета монорельса
-    private void SetDopColor(Color dopColor)
+    public void SetDopColor(Color dopColor)
     {
         this.dopColor = dopColor;
     }
@@ -59,21 +60,31 @@ public class MonoRels extends Lokomotiv{
     }
 
     //Метод для инициализации всех полей
-    public MonoRels(int maxSpeed, int weight, Color mainColor, Color dopColor, boolean lamp, boolean airCooler, int numOfWins) {
+    public MonoRels(int maxSpeed, int weight, Color mainColor, Color dopColor, boolean lamp, boolean airCooler, int numOfWins, int numOfDoors) {
         super(maxSpeed, weight, mainColor, 105, 50);
         SetDopColor(dopColor);
         SetLamp(lamp);
         SetAirCooler(airCooler);
         SetNumOfWins(numOfWins);
-        int a = r.nextInt(3) + 1;
+        doors = new SquareDoors();
+        doors.setD(numOfDoors);
+    }
+
+    //Выбор типа двери
+    public void addTypeOfDoor(int a)
+    {
         if(a == 1)
-            doors = new DopClass1();
+            doors = new SquareDoors();
         else if (a == 2)
-            doors = new DopClass2();
+            doors = new CircleDoors();
         else
-            doors = new DopClass3();
-        doors.setDopc(GetDopColor());
-        doors.setD(r.nextInt(3) + 2);
+            doors = new TriangleDoors();
+    }
+
+    //Кол-во дверей
+    public void addNumOfDoors(int n)
+    {
+        doors.setD(n);
     }
 
     // Метод отрисовки монорельса
@@ -100,7 +111,7 @@ public class MonoRels extends Lokomotiv{
 
         //Отрисовка воздухозаборников
         if (GetAirCooler()) {
-            g2d.setColor(Color.GRAY);
+            g2d.setColor(GetDopColor());
             g2d.fillRect((int) (_startPosX + 18), (int) (_startPosY - 5), 17, 5);
             g2d.fillRect((int) (_startPosX + 75), (int) (_startPosY - 5), 17, 5);
 
@@ -126,6 +137,7 @@ public class MonoRels extends Lokomotiv{
         }
 
         //Отрисовка дверей
+        doors.setDopc(GetDopColor());
         doors.DrawPart(g2d, (int) _startPosX, (int) _startPosY);
     }
 }

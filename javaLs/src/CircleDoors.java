@@ -1,14 +1,15 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-//Класс для отрисовки Прямоугольной (двери)
-public class DopClass1 implements IInterDop{
+//Класс для отрисовки Круглой (двери)
+public class CircleDoors implements IInterDop
+{
 
     //Поле перечисление от ДопПеречисления
     private DopEnum dopenum;
 
     //Поле цвета объекта (двери/дверей)
-    private Color Dopc;
+    private Color Dopc = Color.BLACK;
 
     //Метод (свойство) для установки цвета
     public void setDopc(Color dopc)
@@ -53,15 +54,17 @@ public class DopClass1 implements IInterDop{
 
         if (getD() == DopEnum.Two || getD() == DopEnum.Three) {
             g2d.setColor(getDopc());
-            g2d.fillRect(x + 50, y + 3, 8, 28);
-            if(getD() == DopEnum.Three) {
-                g2d.fillRect(x + 68, y + 3, 8, 28);
+            g2d.fillOval(x + 50, y + 3, 8, 28);
+            if(getD() == DopEnum.Three)
+            {
+                g2d.fillOval(x + 68, y + 3, 8, 28);
             }
 
             g2d.setColor(Color.BLACK);
-            g2d.drawRect(x + 50, y + 3, 8, 28);
-            if(getD() == DopEnum.Three) {
-                g2d.drawRect(x + 68, y + 3, 8, 28);
+            g2d.drawOval(x + 50, y + 3, 8, 28);
+            if(getD() == DopEnum.Three)
+            {
+                g2d.drawOval(x + 68, y + 3, 8, 28);
             }
         }
     }

@@ -91,7 +91,7 @@ public class FormLokomotiv extends JFrame {
 
         //Обработка нажатия на кнопку "Создать Монорельс"
         btnCreateMonoRels.addActionListener((e) -> {
-            lokomotiv = new MonoRels(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.PINK, Color.red, true, true, rnd.nextInt(3) + 1);
+            lokomotiv = new MonoRels(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.PINK, Color.red, true, true, rnd.nextInt(3) + 1, rnd.nextInt(3) + 1);
             lokomotiv.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
             panelMap.setLoko(lokomotiv);
             repaint();

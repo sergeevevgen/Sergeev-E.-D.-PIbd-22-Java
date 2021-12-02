@@ -49,12 +49,6 @@ public class FormDepo extends JFrame {
         btnParkLokomotiv.setMargin(new Insets(10, 10, 10, 10));
         panelManage.add(btnParkLokomotiv);
 
-        //Создание кнопки "Создать Монорельс" и инициализация её свойств
-        JButton btnParkMonoRels = new JButton("Доб. монорельс");
-        btnParkMonoRels.setBounds(25, 310, 150, 25);
-        btnParkMonoRels.setMargin(new Insets(10, 10, 10, 10));
-        panelManage.add(btnParkMonoRels);
-
         //Панель как группбокс для ввода места, с которого будем забирать
         JPanel panelTake = new JPanel();
         panelTake.setBorder(BorderFactory.createTitledBorder("Забрать т/с"));
@@ -125,55 +119,13 @@ public class FormDepo extends JFrame {
 
         //Обработка нажатия на кнопку "Припарковать Локомотив"
         btnParkLokomotiv.addActionListener(e -> {
-            if(listBoxDepos.getSelectedIndex() > -1)
-            {
-                Color newColor = JColorChooser.showDialog(null, "Выберите цвет",
-                        Color.RED);
-                if (newColor != null) {
-                    var lokomotiv = new Lokomotiv(100, 1000, newColor);
-                    if(depoCollection.get(listBoxDepos.getSelectedValue()).Add(lokomotiv) != -1)
-                    {
-                        repaint();
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "Парковка переполнена", "Ошибка", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+            if(listBoxDepos.getSelectedIndex() > -1) {
+                FormLokoConfig formLokoConfig = new FormLokoConfig(this);
+                formLokoConfig.setVisible(true);
             }
             else
-            {
-                JOptionPane.showMessageDialog(null, "Стоянка не выбрана", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-            repaint();
-        });
-
-        //Обработка нажатия на кнопку "Припарковать Монорельс"
-        btnParkMonoRels.addActionListener((e) -> {
-            if(listBoxDepos.getSelectedIndex() > -1)
-            {
-                Random r = new Random();
-                Color newColor1 = JColorChooser.showDialog(null, "Выберите цвет",
-                        Color.WHITE);
-                if (newColor1 != null) {
-                    Color newColor2 = JColorChooser.showDialog(null,"Выберите цвет", Color.WHITE);
-                    if(newColor2 != null)
-                    {
-                        var monoRels = new MonoRels(100, 1000, newColor1, newColor2, r.nextBoolean(),
-                                r.nextBoolean(),r.nextInt(3) + 1);
-                        if (depoCollection.get(listBoxDepos.getSelectedValue()).Add(monoRels) != -1) {
-                            repaint();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Парковка переполнена");
-                        }
-                    }
-                }
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Стоянка не выбрана", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-            repaint();
+                JOptionPane.showMessageDialog(this,"Выберите депо!",
+                        "Ошибка",JOptionPane.ERROR_MESSAGE);
         });
 
         //Обработка нажатия кнопки "Забрать"
@@ -225,13 +177,12 @@ public class FormDepo extends JFrame {
         {
             if(listBoxDepos.getSelectedIndex() > -1)
             {
-                int a = JOptionPane.showConfirmDialog(this, "Удалить депо <" +
-                        listBoxDepos.getSelectedValue() + ">", "Удаление", JOptionPane.YES_NO_OPTION);
-                if(a == 0)
-                {
-                    depoCollection.DelDepo(listBoxDepos.getSelectedValue());
-                    ReloadLevels();
-                }
+               if(JOptionPane.showConfirmDialog(this, "Удалить депо <" +
+                    listBoxDepos.getSelectedValue() + ">", "Удаление", JOptionPane.YES_NO_OPTION) == 0)
+               {
+                   depoCollection.DelDepo(listBoxDepos.getSelectedValue());
+                   ReloadLevels();
+               }
             }
         });
 
@@ -258,6 +209,23 @@ public class FormDepo extends JFrame {
         //Установка названия формы
         super("Депо");
         Initialize();
+    }
+
+    //Метод добавления объекта
+    public void addVehicle(Vehicle loko)
+    {
+        if(loko != null && listBoxDepos.getSelectedIndex() > -1)
+        {
+            if(depoCollection.get(listBoxDepos.getSelectedValue()).Add(loko) != -1)
+            {
+                repaint();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this,"Локомотив/Монорельс не удалось поставить(",
+                        "Ошибка",JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     //проверка на int

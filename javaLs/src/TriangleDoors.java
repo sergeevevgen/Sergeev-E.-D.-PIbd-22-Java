@@ -1,15 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-//Класс для отрисовки Круглой (двери)
-public class DopClass2 implements IInterDop
-{
+//Класс для отрисовки Треугольной (двери)
+public class TriangleDoors implements IInterDop{
 
     //Поле перечисление от ДопПеречисления
     private DopEnum dopenum;
 
     //Поле цвета объекта (двери/дверей)
-    private Color Dopc;
+    private Color Dopc = Color.BLACK;
 
     //Метод (свойство) для установки цвета
     public void setDopc(Color dopc)
@@ -52,19 +51,25 @@ public class DopClass2 implements IInterDop
         g2d.setColor(Color.BLACK);
         g2d.drawRect(x + 32, y + 3, 8, 28);
 
+        //Массивы координат для точек
+        int[] pointsX = new int[]{ x + 54, x + 62, x + 46};
+        int[] pointsY = new int[]{ y + 3, y + 28, y + 28};
+        int[] pointsX1 = new int[]{ x + 76, x + 84, x + 68};
+        int[] pointsY1 = new int[]{ y + 3, y + 28, y + 28};
+
         if (getD() == DopEnum.Two || getD() == DopEnum.Three) {
             g2d.setColor(getDopc());
-            g2d.fillOval(x + 50, y + 3, 8, 28);
+            g2d.fillPolygon(pointsX, pointsY, pointsX.length);
             if(getD() == DopEnum.Three)
             {
-                g2d.fillOval(x + 68, y + 3, 8, 28);
+                g2d.fillPolygon(pointsX1, pointsY1, pointsX1.length);
             }
 
             g2d.setColor(Color.BLACK);
-            g2d.drawOval(x + 50, y + 3, 8, 28);
+            g2d.drawPolygon(pointsX, pointsY, pointsX.length);
             if(getD() == DopEnum.Three)
             {
-                g2d.drawOval(x + 68, y + 3, 8, 28);
+                g2d.drawPolygon(pointsX1, pointsY1, pointsX1.length);
             }
         }
     }
