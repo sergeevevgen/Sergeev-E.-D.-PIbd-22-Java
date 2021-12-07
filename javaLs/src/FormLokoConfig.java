@@ -362,6 +362,7 @@ public class FormLokoConfig extends JFrame {
         });
     }
 
+    //Отрисовка локомотива
     private void DrawLoko()
     {
         lokomotiv = new Lokomotiv((int) spinnerMaxSpeed.getValue(),
@@ -370,7 +371,8 @@ public class FormLokoConfig extends JFrame {
         panelShow.setLoko(lokomotiv);
         repaint();
     }
-
+    
+    //Отрисовка монорельса
     private void DrawMono()
     {
         lokomotiv = new MonoRels((int) spinnerMaxSpeed.getValue(),
