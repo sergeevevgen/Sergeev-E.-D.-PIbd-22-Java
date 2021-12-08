@@ -6,12 +6,14 @@ import java.util.Random;
 //Наследник от абстрактного класса Vehicle
 public class Lokomotiv extends Vehicle {
 
-    Random r = new Random();
     //Ширина локомотива
     private int lokomotivWidth = 105;
 
     //Высота локомотива
     private int lokomotivHeight = 50;
+
+    //Разделитель для записи информации по объекту в файл
+    protected final String separator = ";";
 
     //Конструктор
     public Lokomotiv(int maxSpeed, int weight, Color mainColor) {
@@ -27,6 +29,18 @@ public class Lokomotiv extends Vehicle {
         setMainColor(mainColor);
         this.lokomotivWidth = lokomotivWidth;
         this.lokomotivHeight = lokomotivHeight;
+    }
+
+    //Конструктор для создания объекта с помощью информации из файла
+    public Lokomotiv(String info)
+    {
+        String[] strs = info.split(separator);
+        if(strs.length == 3)
+        {
+            setMaxSpeed(Integer.parseInt(strs[0]));
+            setWeight(Integer.parseInt(strs[1]));
+            setMainColor(new Color(Integer.parseInt(strs[2])));
+        }
     }
 
     //Метод передвижения локомотива
@@ -149,5 +163,11 @@ public class Lokomotiv extends Vehicle {
 
         g2d.setColor(Color.BLUE);
         g2d.drawRect((int) (_startPosX + 9), (int) (_startPosY + 3), 8, 11);
+    }
+
+    //Переопределение метода toString()
+    @Override
+    public String toString() {
+        return getMaxSpeed() + separator + getWeight() + separator + getMainColor().getRGB();
     }
 }

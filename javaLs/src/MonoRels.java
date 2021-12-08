@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.Random;
 
 //Дочерний класс от класса Lokomotiv
 public class MonoRels extends Lokomotiv{
@@ -59,6 +58,12 @@ public class MonoRels extends Lokomotiv{
         return airCooler;
     }
 
+    //Поле-хранилище кол-ва дверей
+    private int doorsCount;
+
+    //Поле-хранилище реализации дверей
+    private int doorsRealization;
+
     //Метод для инициализации всех полей
     public MonoRels(int maxSpeed, int weight, Color mainColor, Color dopColor, boolean lamp, boolean airCooler, int numOfWins, int numOfDoors) {
         super(maxSpeed, weight, mainColor, 105, 50);
@@ -66,25 +71,60 @@ public class MonoRels extends Lokomotiv{
         SetLamp(lamp);
         SetAirCooler(airCooler);
         SetNumOfWins(numOfWins);
-        doors = new SquareDoors();
-        doors.setD(numOfDoors);
+        addTypeOfDoor(1);
+        addNumOfDoors(numOfDoors);
+    }
+
+    //Конструктор для создания объекта с помощью информации из файла
+    public MonoRels(String info){
+        super(info);
+        String[] strs = info.split(separator);
+        if(strs.length == 9)
+        {
+            setMaxSpeed(Integer.parseInt(strs[0]));
+            setWeight(Integer.parseInt(strs[1]));
+            setMainColor(new Color(Integer.parseInt(strs[2])));
+            SetDopColor(new Color(Integer.parseInt(strs[3])));
+            SetLamp(Boolean.parseBoolean(strs[4]));
+            SetAirCooler(Boolean.parseBoolean(strs[5]));
+            SetNumOfWins(Integer.parseInt(strs[6]));
+            addTypeOfDoor(Integer.parseInt(strs[7]));
+            addNumOfDoors(Integer.parseInt(strs[8]));
+        }
     }
 
     //Выбор типа двери
     public void addTypeOfDoor(int a)
     {
-        if(a == 1)
+        doorsRealization = a;
+        if(doorsRealization == 1) {
             doors = new SquareDoors();
-        else if (a == 2)
+        }
+        else if (doorsRealization == 2) {
             doors = new CircleDoors();
-        else
+        }
+        else {
             doors = new TriangleDoors();
+        }
+    }
+
+    //Выбор типа двери
+    private int getTypeOfDoor()
+    {
+        return doorsRealization;
     }
 
     //Кол-во дверей
     public void addNumOfDoors(int n)
     {
-        doors.setD(n);
+        doorsCount = n;
+        doors.setD(doorsCount);
+    }
+
+    //Кол-во дверей
+    private int getNumOfDoors()
+    {
+        return doorsCount;
     }
 
     // Метод отрисовки монорельса
@@ -139,5 +179,14 @@ public class MonoRels extends Lokomotiv{
         //Отрисовка дверей
         doors.setDopc(GetDopColor());
         doors.DrawPart(g2d, (int) _startPosX, (int) _startPosY);
+    }
+
+    //Переопределение метода toString()
+    @Override
+    public String toString() {
+        return super.toString() + separator + GetDopColor().getRGB()
+                + separator + GetLamp() + separator + GetAirCooler() +
+                separator + GetNumOfWins() + separator + getTypeOfDoor() +
+                separator + getNumOfDoors();
     }
 }
