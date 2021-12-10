@@ -145,11 +145,14 @@ public class DepoCollection {
     //Сохранение отдельного депо
     public boolean SaveDepo(String filename, String depoName)
     {
+        var depo = get(depoName);
+        if(depo == null)
+            return false;
         //Не добавлять, а создавать новый
         try (FileWriter fw = new FileWriter(filename, false))
         {
             fw.write("Depo" + separator + depoName + "\n");
-            var depo = get(depoName);
+
             Vehicle lokomotiv;
             for(int i = 0; (lokomotiv = depo.get_places(i)) != null; ++i)
             {
@@ -184,8 +187,14 @@ public class DepoCollection {
             if(line.contains("Depo"))
             {
                 name = line.split(separator)[1];
-                depoStages.remove(line);
-                depoStages.put(name, new Depo<>(pictureWidth, pictureHeight));
+                if (depoStages.containsKey(name))
+                {
+                    depoStages.get(name).clear();
+                }
+                else
+                {
+                    depoStages.put(name, new Depo<>(pictureWidth, pictureHeight));
+                }
             }
             else
                 return false;
