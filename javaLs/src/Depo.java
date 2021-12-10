@@ -116,4 +116,10 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
             return _places.get(index);
         return null;
     }
+
+    //Метод очищения всех мест
+    public void clear()
+    {
+        _places.clear();
+    }
 }
