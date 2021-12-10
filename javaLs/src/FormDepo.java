@@ -280,5 +280,4 @@ public class FormDepo extends JFrame {
 
     //Текстовое поле для ввода названия депо
     private JTextField textFieldDepos;
-
 }
