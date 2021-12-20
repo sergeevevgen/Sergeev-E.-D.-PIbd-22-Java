@@ -1,11 +1,8 @@
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.io.File;
-import java.io.IOException;
 
 //Класс-коллекция депо
 public class DepoCollection {
@@ -67,7 +64,7 @@ public class DepoCollection {
 
     //Сохранение информации по локомотивам в депо в файл
     //filename - путь и имя файла
-    public boolean SaveData(String filename)
+    public void SaveData(String filename)
     {
         //Не добавлять, а создавать новый
         try (FileWriter fw = new FileWriter(filename, false))
@@ -94,13 +91,12 @@ public class DepoCollection {
         {
             e.printStackTrace();
         }
-        return true;
     }
 
     //Загрузка информации по локомотивам в депо из файла
-    public boolean LoadData(String filename){
+    public void LoadData(String filename) throws FileNotFoundException {
         if(!new File(filename).exists())
-            return false;
+            throw new FileNotFoundException("Файл " + filename + " не найден");
 
         try(FileReader fr = new FileReader(filename)){
             Scanner sc = new Scanner(fr);
@@ -109,7 +105,7 @@ public class DepoCollection {
                 depoStages.clear();
             }
             else
-                return false;
+                throw new IllegalArgumentException("Неверный формат файла");
 
             String key = null;
             Vehicle lokomotiv = null;
@@ -132,22 +128,21 @@ public class DepoCollection {
                     lokomotiv = new MonoRels(line.split(separator)[1]);
                 }
                 if(depoStages.get(key).Add(lokomotiv) == -1)
-                    return false;
+                    throw new DepoOverflowException();
             }
         }
-        catch (IOException e)
+        catch (IOException | DepoOverflowException e)
         {
             e.printStackTrace();
         }
-        return true;
     }
 
     //Сохранение отдельного депо
-    public boolean SaveDepo(String filename, String depoName)
+    public void SaveDepo(String filename, String depoName)
     {
         var depo = get(depoName);
         if(depo == null)
-            return false;
+            return;
         //Не добавлять, а создавать новый
         try (FileWriter fw = new FileWriter(filename, false))
         {
@@ -171,14 +166,12 @@ public class DepoCollection {
         {
             e.printStackTrace();
         }
-        return true;
     }
 
     //Загрузка отдельного депо
-    public boolean LoadDepo(String filename)
-    {
+    public void LoadDepo(String filename) throws FileNotFoundException {
         if(!new File(filename).exists())
-            return false;
+            throw new FileNotFoundException("Файл " + filename + " не найден");
 
         try(FileReader fr = new FileReader(filename)){
             Scanner sc = new Scanner(fr);
@@ -197,7 +190,7 @@ public class DepoCollection {
                 }
             }
             else
-                return false;
+                throw new IllegalArgumentException("Неверный формат файла");
 
             Vehicle lokomotiv = null;
             while(sc.hasNextLine())
@@ -212,13 +205,12 @@ public class DepoCollection {
                     lokomotiv = new MonoRels(line.split(separator)[1]);
                 }
                 if(depoStages.get(name).Add(lokomotiv) == -1)
-                    return false;
+                    throw  new DepoOverflowException();
             }
         }
-        catch (IOException e)
+        catch (IOException | DepoOverflowException e)
         {
             e.printStackTrace();
         }
-        return true;
     }
 }

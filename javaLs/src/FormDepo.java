@@ -1,10 +1,14 @@
+import javax.imageio.IIOException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 //Класс-наследник от JFrame
 public class FormDepo extends JFrame {
@@ -15,8 +19,14 @@ public class FormDepo extends JFrame {
     //Очередь для перемещенных объектов
     Queue<ITransport> queueTransports;
 
+    //Логгер
+    private Logger logger;
+
     public void Initialize()
     {
+        //Создание и настройка логгера
+        logger = LogManager.getLogger(FormDepo.class);
+        PropertyConfigurator.configure("src/log4j.properties");
         //Задание характеристик фрэйму
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -152,9 +162,11 @@ public class FormDepo extends JFrame {
                 FormLokoConfig formLokoConfig = new FormLokoConfig(this);
                 formLokoConfig.setVisible(true);
             }
-            else
-                JOptionPane.showMessageDialog(this,"Выберите депо!",
-                        "Ошибка",JOptionPane.ERROR_MESSAGE);
+            else {
+                logger.warn("Выберите депо!");
+                JOptionPane.showMessageDialog(this, "Выберите депо!",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         //Обработка нажатия кнопки "Забрать"
@@ -162,15 +174,24 @@ public class FormDepo extends JFrame {
             if(listBoxDepos.getSelectedIndex() > -1 && tryParseInt(textFieldTake.getText()) != null)
             {
                 int a = tryParseInt(textFieldTake.getText());
-                var lokomotiv = depoCollection.get(listBoxDepos.getSelectedValue()).Sub(a);
-                if(lokomotiv != null)
-                {
-                    queueTransports.add(lokomotiv);
-                    lblQ.setText(Integer.toString(queueTransports.size()));
+                Vehicle lokomotiv;
+                try {
+                    lokomotiv = depoCollection.get(listBoxDepos.getSelectedValue()).Sub(a);
+                    if(lokomotiv != null)
+                    {
+                        queueTransports.add(lokomotiv);
+                        lblQ.setText(Integer.toString(queueTransports.size()));
+                        logger.info("Изъят локомотив/монорельс " + lokomotiv + " с места <" + a + "> со стоянки <" + listBoxDepos.getSelectedValue() + ">");
+                    }
+                } catch (DepoPlaceNotFoundException ex) {
+                    logger.warn(ex.getMessage());
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
-                else
+                catch (Exception ex)
                 {
-                    JOptionPane.showMessageDialog(null, "Это место пусто!");
+                    logger.fatal(ex.getMessage());
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),
+                            "Ошибка",JOptionPane.ERROR_MESSAGE);
                 }
             }
             else
@@ -195,8 +216,10 @@ public class FormDepo extends JFrame {
             {
                 JOptionPane.showMessageDialog(this,"Введите название депо!",
                         "Ошибка",JOptionPane.ERROR_MESSAGE);
+                logger.warn("Не введено название депо");
                 return;
             }
+            logger.info("Добавили депо <" + textFieldDepos.getText() + ">");
             depoCollection.AddDepo(textFieldDepos.getText());
             ReloadLevels();
         });
@@ -209,6 +232,7 @@ public class FormDepo extends JFrame {
                if(JOptionPane.showConfirmDialog(this, "Удалить депо <" +
                     listBoxDepos.getSelectedValue() + ">", "Удаление", JOptionPane.YES_NO_OPTION) == 0)
                {
+                   logger.info("Удалили депо <" + listBoxDepos.getSelectedValue() + ">" );
                    depoCollection.DelDepo(listBoxDepos.getSelectedValue());
                    ReloadLevels();
                }
@@ -218,6 +242,7 @@ public class FormDepo extends JFrame {
         //Если поменялся выбранный элемент JList
         listBoxDepos.addListSelectionListener(e -> {
             panelPark.setSelectedItem(listBoxDepos.getSelectedValue());
+            logger.info("Перешли в депо <" + listBoxDepos.getSelectedValue() + ">");
             repaint();
         });
 
@@ -228,6 +253,7 @@ public class FormDepo extends JFrame {
                 FormLokomotiv formLokomotiv = new FormLokomotiv();
                 formLokomotiv.SetLokomotiv(queueTransports.remove());
                 formLokomotiv.setVisible(true);
+                logger.info("Забрали из очереди локомотив");
                 lblQ.setText(Integer.toString(queueTransports.size()));
             }
         });
@@ -241,13 +267,16 @@ public class FormDepo extends JFrame {
                 String filename = fileChooser.getSelectedFile().getPath();
                 if(!filename.contains(".txt"))
                     filename += ".txt";
-                if(depoCollection.SaveData(filename))
-                {
+                try {
+                    depoCollection.SaveData(filename);
                     JOptionPane.showMessageDialog(this, "Сохранение прошло успешно",
                             "Результат", JOptionPane.INFORMATION_MESSAGE);
+                    logger.info("Сохранено в файл " + filename);
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Не сохранилось",
+                catch (Exception ex)
+                {
+                    logger.fatal(ex.getMessage());
+                    JOptionPane.showMessageDialog(this, "Неизвестная ошибка при сохранении",
                             "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -257,17 +286,28 @@ public class FormDepo extends JFrame {
         loadDC.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileFilter(new FileNameExtensionFilter("Текстовый файл", "txt"));
-            if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-            {
-                if(depoCollection.LoadData(fileChooser.getSelectedFile().getPath()))
-                {
+            if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    depoCollection.LoadData(fileChooser.getSelectedFile().getPath());
                     JOptionPane.showMessageDialog(this, "Файл загружен",
                             "Результат", JOptionPane.INFORMATION_MESSAGE);
+
+                    logger.info("Загружено из файла " + fileChooser.getSelectedFile().getPath());
                     ReloadLevels();
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Файл не загружен",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                catch (FileNotFoundException ex) {
+                    logger.warn("Попытка загрузить несуществующий файл");
+                    JOptionPane.showMessageDialog(this, "Файл не существует",
+                            "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (IllegalArgumentException ex) {
+                    logger.warn("Попытка загрузить депо из файла с неверным форматом");
+                    JOptionPane.showMessageDialog(this, "Неверный формат",
+                            "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (Exception ex) {
+                    logger.fatal("Неизвестная ошибка при загрузке депо из файла " + ex.getMessage());
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Неизвестная ошибка при загрузке депо из файла", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -278,15 +318,26 @@ public class FormDepo extends JFrame {
             fileChooser.setFileFilter(new FileNameExtensionFilter("Текстовый файл", "txt"));
             if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
             {
-                if(depoCollection.LoadDepo(fileChooser.getSelectedFile().getPath()))
-                {
+                try {
+                    depoCollection.LoadDepo(fileChooser.getSelectedFile().getPath());
+                    logger.info("Депо " + listBoxDepos.getSelectedValue() + " загружено из файла" + fileChooser.getSelectedFile().getPath());
                     JOptionPane.showMessageDialog(this, "Файл загружен",
                             "Результат", JOptionPane.INFORMATION_MESSAGE);
                     ReloadLevels();
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Файл не загружен",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                catch (FileNotFoundException ex) {
+                    logger.warn("Попытка загрузить несуществующий файл");
+                    JOptionPane.showMessageDialog(this, "Файл не существует",
+                            "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (IllegalArgumentException ex) {
+                    logger.warn("Попытка загрузить депо из файла с неверным форматом");
+                    JOptionPane.showMessageDialog(this, "Неверный формат",
+                            "Результат", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex)
+                {
+                    logger.fatal("Неизвестная ошибка при загрузке депо из файла " + ex.getMessage());
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Неизвестная ошибка при загрузке депо из файла", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -300,13 +351,16 @@ public class FormDepo extends JFrame {
                 String filename = fileChooser.getSelectedFile().getPath();
                 if(!filename.contains(".txt"))
                     filename += ".txt";
-                if(depoCollection.SaveDepo(filename, listBoxDepos.getSelectedValue()))
-                {
+                try {
+                    depoCollection.SaveDepo(filename, listBoxDepos.getSelectedValue());
+                    logger.info("Депо " + listBoxDepos.getSelectedValue() + " сохранено в файле " + filename);
                     JOptionPane.showMessageDialog(this, "Сохранение прошло успешно",
                             "Результат", JOptionPane.INFORMATION_MESSAGE);
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Не сохранилось",
+                catch (Exception ex)
+                {
+                    logger.fatal(ex.getMessage());
+                    JOptionPane.showMessageDialog(this, "Неизвестная ошибка при сохранении",
                             "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -321,18 +375,24 @@ public class FormDepo extends JFrame {
     }
 
     //Метод добавления объекта
-    public void addVehicle(Vehicle loko)
-    {
+    public void addVehicle(Vehicle loko) {
         if(loko != null && listBoxDepos.getSelectedIndex() > -1)
         {
-            if(depoCollection.get(listBoxDepos.getSelectedValue()).Add(loko) != -1)
-            {
+            try {
+                depoCollection.get(listBoxDepos.getSelectedValue()).Add(loko);
+                logger.info("Добавлен локомотив/монорельс " + loko);
                 repaint();
             }
-            else
+            catch (DepoOverflowException ex) {
+                logger.warn(ex.getMessage());
+                JOptionPane.showMessageDialog(this, ex.getMessage(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+            catch (Exception ex)
             {
-                JOptionPane.showMessageDialog(this,"Локомотив/Монорельс не удалось поставить(",
-                        "Ошибка",JOptionPane.ERROR_MESSAGE);
+                logger.fatal(ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Неизвестная ошибка",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

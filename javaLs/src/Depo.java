@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,25 +36,25 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
 
     //Добавить объект (как перегрузка оператора сложения в C#)
     //Логика действия: в депо добавляется локомотив/монорельс
-    public int Add(T lok)
-    {
-        if(_places.size() == _maxCount)
-            return -1;
+    public int Add(T lok) throws DepoOverflowException {
+        if(_places.size() >= _maxCount)
+        {
+            throw new DepoOverflowException();
+        }
         _places.add(lok);
         return _places.size() - 1;
     }
 
     //Удалить объект (как перегрузка оператора вычитания в C#)
     //Логика действия: из депо забираем локомотив/монорельс
-    public T Sub(int index)
-    {
+    public T Sub(int index) throws DepoPlaceNotFoundException {
         if(index > -1 && index < _places.size())
         {
             T dop = _places.get(index);
             _places.remove(index);
             return dop;
         }
-        return null;
+        throw new DepoPlaceNotFoundException(index);
     }
 
     //Больше или равно (как перегрузка оператора больше или равно)
