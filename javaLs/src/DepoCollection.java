@@ -72,8 +72,7 @@ public class DepoCollection {
             fw.write("DepoCollection\n");
             for (var level : depoStages.entrySet()) {
                 fw.write("Depo" + separator + level.getKey() + "\n");
-                ITransport lokomotiv;
-                for(int i = 0; (lokomotiv = level.getValue().get_places(i)) != null; ++i)
+                for(ITransport lokomotiv : level.getValue())
                 {
                     if(lokomotiv.getClass() == Lokomotiv.class)
                     {
@@ -131,7 +130,7 @@ public class DepoCollection {
                     throw new DepoOverflowException();
             }
         }
-        catch (IOException | DepoOverflowException e)
+        catch (IOException | DepoOverflowException | DepoAlreadyHaveException e)
         {
             e.printStackTrace();
         }
@@ -148,8 +147,7 @@ public class DepoCollection {
         {
             fw.write("Depo" + separator + depoName + "\n");
 
-            Vehicle lokomotiv;
-            for(int i = 0; (lokomotiv = depo.get_places(i)) != null; ++i)
+            for(Vehicle lokomotiv : depo)
             {
                 if(lokomotiv.getClass() == Lokomotiv.class)
                 {
@@ -208,7 +206,7 @@ public class DepoCollection {
                     throw  new DepoOverflowException();
             }
         }
-        catch (IOException | DepoOverflowException e)
+        catch (IOException | DepoOverflowException | DepoAlreadyHaveException e)
         {
             e.printStackTrace();
         }

@@ -1,10 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Iterator;
 import java.util.Random;
 
 //Наследник от абстрактного класса Vehicle
-public class Lokomotiv extends Vehicle {
+public class Lokomotiv extends Vehicle implements Comparable<Lokomotiv>, Iterator<String>, Iterable<String> {
 
     //Ширина локомотива
     private int lokomotivWidth = 105;
@@ -14,6 +15,9 @@ public class Lokomotiv extends Vehicle {
 
     //Разделитель для записи информации по объекту в файл
     protected final String separator = ";";
+
+    //Текущее св-во
+    private int current;
 
     //Конструктор
     public Lokomotiv(int maxSpeed, int weight, Color mainColor) {
@@ -169,5 +173,82 @@ public class Lokomotiv extends Vehicle {
     @Override
     public String toString() {
         return getMaxSpeed() + separator + getWeight() + separator + getMainColor().getRGB();
+    }
+
+    //Методы сравнения объектов
+    //Перегрузка метода от object
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Lokomotiv lokoObj)) {
+            return false;
+        }
+        return equals(lokoObj);
+    }
+
+    //Метод сравнения для класса Lokomotiv
+    public boolean equals(Lokomotiv other) {
+        if (other == null) {
+            return false;
+        }
+        if (!getClass().getName().equals(other.getClass().getName())) {
+            return false;
+        }
+        if (getMaxSpeed() != other.getMaxSpeed()) {
+            return false;
+        }
+        if (getWeight() != other.getWeight()) {
+            return false;
+        }
+        return getMainColor().getRGB() == other.getMainColor().getRGB();
+    }
+
+    //Переопределение метода интерфейса Comparable
+    @Override
+    public int compareTo(Lokomotiv o) {
+        if(getMaxSpeed() != o.getMaxSpeed())
+        {
+            return Integer.compare(getMaxSpeed(), o.getMaxSpeed());
+        }
+        if(getWeight() != o.getWeight())
+        {
+            return Integer.compare(getWeight(), o.getWeight());
+        }
+        if(getMainColor().getRGB() != o.getMainColor().getRGB())
+        {
+            return Integer.compare(getMainColor().getRGB(), o.getMainColor().getRGB());
+        }
+        return 0;
+    }
+
+    //Переопределение метода для Iterator, Iterable
+    @Override
+    public Iterator<String> iterator() {
+        return this;
+    }
+
+    //Переопределение метода для Iterator, Iterable
+    @Override
+    public boolean hasNext() {
+        if(current > 2){
+            current = -1;
+            return false;
+        }
+        return true;
+    }
+
+    //Переопределение метода для Iterator, Iterable
+    @Override
+    public String next() {
+        current++;
+        if(current == 0)
+            return String.valueOf(getMaxSpeed());
+        if(current == 1)
+            return String.valueOf(getWeight());
+        if(current == 2)
+            return String.valueOf(getMainColor().getRGB());
+        return null;
     }
 }

@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 //Параметризованный класс-хранилище для объектов
-public class Depo<T extends ITransport, U extends IInterDop>  {
+public class Depo<T extends ITransport, U extends IInterDop>  implements Iterator<T>, Iterable<T> {
 
     //Список хранимых объектов
     private final List<T> _places;
@@ -23,6 +25,9 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
     //Высота места в депо
     private final int _placeSizeHeight = 70;
 
+    //Текущий индекс элемента
+    public int current;
+
     //Конструктор
     public Depo(int picWidth, int picHeight)
     {
@@ -32,14 +37,19 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
         _places = new LinkedList<>();
         pictureWidth = picWidth;
         pictureHeight = picHeight;
+        current = -1;
     }
 
     //Добавить объект (как перегрузка оператора сложения в C#)
     //Логика действия: в депо добавляется локомотив/монорельс
-    public int Add(T lok) throws DepoOverflowException {
+    public int Add(T lok) throws DepoOverflowException, DepoAlreadyHaveException {
         if(_places.size() >= _maxCount)
         {
             throw new DepoOverflowException();
+        }
+        if(_places.contains(lok))
+        {
+            throw new DepoAlreadyHaveException();
         }
         _places.add(lok);
         return _places.size() - 1;
@@ -120,5 +130,34 @@ public class Depo<T extends ITransport, U extends IInterDop>  {
     public void clear()
     {
         _places.clear();
+    }
+
+    //Метод сортировки
+    public void sort(){
+        _places.sort((Comparator<? super T>) new LokoComparer());
+    }
+
+    //Метод интерфейса Iterator
+    @Override
+    public Iterator<T> iterator() {
+        current = -1;
+        return this;
+    }
+
+    //Метод интерфейса Iterator для перехода к следующему элементу
+    @Override
+    public boolean hasNext() {
+        return current < _places.size() - 1;
+    }
+
+    //Метод интерфейса Iterator для получения следующего элемента
+    @Override
+    public T next() {
+        if(!hasNext())
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        current++;
+        return _places.get(current);
     }
 }

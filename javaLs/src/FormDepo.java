@@ -61,6 +61,12 @@ public class FormDepo extends JFrame {
         btnParkLokomotiv.setMargin(new Insets(10, 10, 10, 10));
         panelManage.add(btnParkLokomotiv);
 
+        //Создание кнопки "Сортировать" и инициализация её свойств
+        JButton btnSort = new JButton("Сортировать");
+        btnSort.setBounds(25,310,150,25);
+        panelManage.add(btnSort);
+        btnSort.setMargin(new Insets(10,10,10,10));
+
         //Панель как группбокс для ввода места, с которого будем забирать
         JPanel panelTake = new JPanel();
         panelTake.setBorder(BorderFactory.createTitledBorder("Забрать т/с"));
@@ -365,6 +371,15 @@ public class FormDepo extends JFrame {
                 }
             }
         });
+        //Обработка нажатия на кнопку "Сортировать"
+        btnSort.addActionListener(e -> {
+            if(listBoxDepos.getSelectedIndex() > -1)
+            {
+                depoCollection.get(listBoxDepos.getSelectedValue()).sort();
+                repaint();
+                logger.info("Сортировка уровня <" + listBoxDepos.getSelectedValue() + ">");
+            }
+        });
     }
 
     //Конструктор
@@ -383,13 +398,11 @@ public class FormDepo extends JFrame {
                 logger.info("Добавлен локомотив/монорельс " + loko);
                 repaint();
             }
-            catch (DepoOverflowException ex) {
+            catch (DepoOverflowException | DepoAlreadyHaveException ex) {
                 logger.warn(ex.getMessage());
                 JOptionPane.showMessageDialog(this, ex.getMessage(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 logger.fatal(ex.getMessage());
                 JOptionPane.showMessageDialog(this, "Неизвестная ошибка",
                         "Ошибка", JOptionPane.ERROR_MESSAGE);

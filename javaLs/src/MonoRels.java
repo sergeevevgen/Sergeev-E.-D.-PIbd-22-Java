@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.util.Iterator;
 
 //Дочерний класс от класса Lokomotiv
-public class MonoRels extends Lokomotiv{
+public class MonoRels extends Lokomotiv {
 
     //Поле-объект от интерфейса InterDop
     private IInterDop doors;
@@ -64,6 +65,9 @@ public class MonoRels extends Lokomotiv{
     //Поле-хранилище реализации дверей
     private int doorsRealization;
 
+    //Текущее св-во
+    private int current;
+
     //Метод для инициализации всех полей
     public MonoRels(int maxSpeed, int weight, Color mainColor, Color dopColor, boolean lamp, boolean airCooler, int numOfWins, int numOfDoors) {
         super(maxSpeed, weight, mainColor, 105, 50);
@@ -109,7 +113,7 @@ public class MonoRels extends Lokomotiv{
     }
 
     //Выбор типа двери
-    private int getTypeOfDoor()
+    public int getTypeOfDoor()
     {
         return doorsRealization;
     }
@@ -122,7 +126,7 @@ public class MonoRels extends Lokomotiv{
     }
 
     //Кол-во дверей
-    private int getNumOfDoors()
+    public int getNumOfDoors()
     {
         return doorsCount;
     }
@@ -188,5 +192,136 @@ public class MonoRels extends Lokomotiv{
                 + separator + GetLamp() + separator + GetAirCooler() +
                 separator + GetNumOfWins() + separator + getTypeOfDoor() +
                 separator + getNumOfDoors();
+    }
+
+    //Методы сравнения объектов
+    //Перегрузка метода от object
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof MonoRels monoObj)) {
+            return false;
+        }
+        return equals(monoObj);
+    }
+
+    //Метод сравнения для класса MonoRels
+    public boolean equals(MonoRels other) {
+        if (other == null) {
+            return false;
+        }
+        if (!getClass().getName().equals(other.getClass().getName())) {
+            return false;
+        }
+        if (getMaxSpeed() != other.getMaxSpeed()) {
+            return false;
+        }
+        if (getWeight() != other.getWeight()) {
+            return false;
+        }
+        if(getMainColor().getRGB() != other.getMainColor().getRGB())
+        {
+            return false;
+        }
+        if(GetDopColor().getRGB() != other.GetDopColor().getRGB())
+        {
+            return false;
+        }
+        if(GetNumOfWins() != other.GetNumOfWins())
+        {
+            return false;
+        }
+        if(GetLamp() != other.GetLamp())
+        {
+            return false;
+        }
+        if(GetAirCooler() != other.GetAirCooler())
+        {
+            return false;
+        }
+        if(getNumOfDoors() != other.getNumOfDoors())
+        {
+            return false;
+        }
+        return getTypeOfDoor() == other.getTypeOfDoor();
+    }
+
+    //Переопределение метода интерфейса Comparable
+    @Override
+    public int compareTo(Lokomotiv o) {
+        var res = super.compareTo(o);
+        if(res != 0)
+        {
+            return res;
+        }
+        MonoRels m = (MonoRels) o;
+        if(GetDopColor().getRGB() != m.GetDopColor().getRGB())
+        {
+            return Integer.compare(GetDopColor().getRGB(), m.GetDopColor().getRGB());
+        }
+        if(GetNumOfWins() != m.GetNumOfWins())
+        {
+            return Integer.compare(GetNumOfWins(), m.GetNumOfWins());
+        }
+        if(GetLamp() != m.GetLamp())
+        {
+            return Boolean.compare(GetLamp(), m.GetLamp());
+        }
+        if(GetAirCooler() != m.GetAirCooler())
+        {
+            return Boolean.compare(GetAirCooler(), m.GetAirCooler());
+        }
+        if(getNumOfDoors() != m.getNumOfDoors())
+        {
+            return Integer.compare(getNumOfDoors(), m.getNumOfDoors());
+        }
+        if(getTypeOfDoor() != m.getTypeOfDoor())
+        {
+            return Integer.compare(getTypeOfDoor(), m.getTypeOfDoor());
+        }
+        return 0;
+    }
+
+    //Переопределение метода для Iterator, Iterable
+    @Override
+    public Iterator<String> iterator() {
+        return this;
+    }
+
+    //Переопределение метода для Iterator, Iterable
+    @Override
+    public boolean hasNext() {
+        if(current > 8){
+            current = -1;
+            return false;
+        }
+        return true;
+    }
+
+    //Переопределение метода для Iterator, Iterable
+    @Override
+    public String next() {
+        current++;
+        if(current == 0)
+            return String.valueOf(getMaxSpeed());
+        if(current == 1)
+            return String.valueOf(getWeight());
+        if(current == 2)
+            return String.valueOf(getMainColor().getRGB());
+        if (current == 3)
+            return String.valueOf(GetDopColor().getRGB());
+        if(current == 4)
+            return String.valueOf(GetNumOfWins());
+        if(current == 5)
+            return String.valueOf(GetLamp());
+        if(current == 6)
+            return String.valueOf(GetAirCooler());
+        if(current == 7)
+            return String.valueOf(getNumOfDoors());
+        if(current == 8)
+            return String.valueOf(getTypeOfDoor());
+        return null;
     }
 }
