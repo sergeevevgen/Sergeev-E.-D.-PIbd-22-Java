@@ -296,12 +296,12 @@ public class FormDepo extends JFrame {
                     ReloadLevels();
                 }
                 catch (FileNotFoundException ex) {
-                    logger.warn("Попытка загрузить несуществующий файл");
+                    logger.error("Попытка загрузить несуществующий файл");
                     JOptionPane.showMessageDialog(this, "Файл не существует",
                             "Результат", JOptionPane.ERROR_MESSAGE);
                 }
                 catch (IllegalArgumentException ex) {
-                    logger.warn("Попытка загрузить депо из файла с неверным форматом");
+                    logger.error("Попытка загрузить депо из файла с неверным форматом");
                     JOptionPane.showMessageDialog(this, "Неверный формат",
                             "Результат", JOptionPane.ERROR_MESSAGE);
                 }
@@ -326,12 +326,12 @@ public class FormDepo extends JFrame {
                     ReloadLevels();
                 }
                 catch (FileNotFoundException ex) {
-                    logger.warn("Попытка загрузить несуществующий файл");
+                    logger.error("Попытка загрузить несуществующий файл");
                     JOptionPane.showMessageDialog(this, "Файл не существует",
                             "Результат", JOptionPane.ERROR_MESSAGE);
                 }
                 catch (IllegalArgumentException ex) {
-                    logger.warn("Попытка загрузить депо из файла с неверным форматом");
+                    logger.error("Попытка загрузить депо из файла с неверным форматом");
                     JOptionPane.showMessageDialog(this, "Неверный формат",
                             "Результат", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex)
